@@ -4,16 +4,17 @@
 #
 Name     : dnf
 Version  : 2.6.3.1
-Release  : 1
+Release  : 2
 URL      : https://github.com/rpm-software-management/dnf/archive/dnf-2.6.3-1.tar.gz
 Source0  : https://github.com/rpm-software-management/dnf/archive/dnf-2.6.3-1.tar.gz
 Summary  : Package manager forked from Yum, using libsolv as a dependency resolver
 Group    : Development/Tools
 License  : GPL-2.0 GPL-2.0+
 Requires: dnf-bin
-Requires: dnf-python
+Requires: dnf-python3
 Requires: dnf-config
 Requires: dnf-locales
+Requires: dnf-python
 BuildRequires : cmake
 BuildRequires : pluggy
 BuildRequires : py-python
@@ -52,9 +53,19 @@ locales components for the dnf package.
 %package python
 Summary: python components for the dnf package.
 Group: Default
+Requires: dnf-python3
 
 %description python
 python components for the dnf package.
+
+
+%package python3
+Summary: python3 components for the dnf package.
+Group: Default
+Requires: python3-core
+
+%description python3
+python3 components for the dnf package.
 
 
 %prep
@@ -65,7 +76,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1506099635
+export SOURCE_DATE_EPOCH=1507153166
 mkdir clr-build
 pushd clr-build
 cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib64 -DCMAKE_AR=/usr/bin/gcc-ar -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DPYTHON_DESIRED="3" -DWITH_MAN=0
@@ -73,22 +84,18 @@ make VERBOSE=1  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1506099635
+export SOURCE_DATE_EPOCH=1507153166
 rm -rf %{buildroot}
 pushd clr-build
 %make_install
 popd
 %find_lang dnf
-## make_install_append content
-ln -s dnf-3 %{buildroot}/usr/bin/dnf
-## make_install_append end
 
 %files
 %defattr(-,root,root,-)
 
 %files bin
 %defattr(-,root,root,-)
-/usr/bin/dnf
 /usr/bin/dnf-3
 /usr/bin/dnf-automatic-3
 
@@ -105,6 +112,9 @@ ln -s dnf-3 %{buildroot}/usr/bin/dnf
 /usr/lib/tmpfiles.d/dnf.conf
 
 %files python
+%defattr(-,root,root,-)
+
+%files python3
 %defattr(-,root,root,-)
 /usr/lib/python3*/*
 
