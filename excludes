@@ -8,3 +8,5 @@
 /usr/lib/systemd/system/dnf-automatic-notifyonly.timer
 /usr/lib/systemd/system/dnf-makecache.service
 /usr/lib/systemd/system/dnf-makecache.timer
+/usr/lib/systemd/system/dnf-automatic.service
+/usr/lib/systemd/system/dnf-automatic.timer
