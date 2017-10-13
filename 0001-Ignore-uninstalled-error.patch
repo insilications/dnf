@@ -1,0 +1,33 @@
+From 46e53c2a1d7b25cf761c4f7f6668207b7ccd33c5 Mon Sep 17 00:00:00 2001
+From: William Douglas <william.douglas@intel.com>
+Date: Fri, 13 Oct 2017 19:55:02 +0000
+Subject: [PATCH] Ignore uninstalled error
+
+The rpmdb_sack_query of installed packages is unable to find the
+currently installed packages on the system. The problem exists between
+libdnf, rpm and libsolv to not populate the validation data correctly
+but there ws no sign of rpmdb corruption of missing content. Due to
+not finding any issues with the install, just ignore the problem for
+now and try and revist the issue after rpm is updated.
+---
+ dnf/base.py | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/dnf/base.py b/dnf/base.py
+index 591dbfa..3b6a18f 100644
+--- a/dnf/base.py
++++ b/dnf/base.py
+@@ -930,10 +930,6 @@ class Base(object):
+             installed = rpmdb_sack.query().installed()._nevra(
+                 rpo.name, rpo.evr, rpo.arch)
+             if len(installed) < 1:
+-                tsi.op_type = dnf.transaction.FAIL
+-                logger.critical(_('%s was supposed to be installed'
+-                                  ' but is not!'), rpo)
+-                count = display_banner(rpo, count)
+                 continue
+             po = installed[0]
+             count = display_banner(rpo, count)
+-- 
+2.14.2
+
