@@ -1,0 +1,15 @@
+diff -Naur dnf-2.7.5.orig/dnf/yum/history.py dnf-2.7.5/dnf/yum/history.py
+--- dnf-2.7.5.orig/dnf/yum/history.py	2018-03-13 12:03:47.475301425 -0700
++++ dnf-2.7.5/dnf/yum/history.py	2018-03-13 12:01:38.093295256 -0700
+@@ -1357,7 +1357,10 @@
+         """ Save all the data for rpmdb for this installed pkg, assumes
+             there is no data currently. """
+         for attr in YumHistoryPackage._valid_rpmdb_keys:
+-            val = getattr(ipkg, attr, None)
++            try:
++                val = getattr(ipkg, attr, None)
++            except UnicodeDecodeError:
++                val = None
+             if val is None:
+                 continue
+             if not self._save_anydb_key(ipkg, "rpm", attr, val):
