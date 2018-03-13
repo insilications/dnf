@@ -4,7 +4,7 @@
 #
 Name     : dnf
 Version  : 2.7.5
-Release  : 16
+Release  : 17
 URL      : https://github.com/rpm-software-management/dnf/archive/2.7.5.tar.gz
 Source0  : https://github.com/rpm-software-management/dnf/archive/2.7.5.tar.gz
 Summary  : Package manager forked from Yum, using libsolv as a dependency resolver
@@ -28,6 +28,7 @@ BuildRequires : pytest
 BuildRequires : tox
 BuildRequires : virtualenv
 Patch1: 0001-Ignore-uninstalled-error.patch
+Patch2: fix-decode-error.patch
 
 %description
 Package manager forked from Yum, using libsolv as a dependency resolver.
@@ -78,21 +79,22 @@ python3 components for the dnf package.
 %prep
 %setup -q -n dnf-2.7.5
 %patch1 -p1
+%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1509141041
+export SOURCE_DATE_EPOCH=1520968265
 mkdir clr-build
 pushd clr-build
 cmake .. -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_INSTALL_DIR:PATH=/usr/lib64 -DCMAKE_AR=/usr/bin/gcc-ar -DLIB_SUFFIX=64 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_RANLIB=/usr/bin/gcc-ranlib -DPYTHON_DESIRED="3" -DWITH_MAN=0
-make VERBOSE=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1509141041
+export SOURCE_DATE_EPOCH=1520968265
 rm -rf %{buildroot}
 pushd clr-build
 %make_install
