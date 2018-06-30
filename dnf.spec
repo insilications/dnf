@@ -4,7 +4,7 @@
 #
 Name     : dnf
 Version  : 2.7.5
-Release  : 21
+Release  : 22
 URL      : https://github.com/rpm-software-management/dnf/archive/2.7.5.tar.gz
 Source0  : https://github.com/rpm-software-management/dnf/archive/2.7.5.tar.gz
 Summary  : Package manager forked from Yum, using libsolv as a dependency resolver
