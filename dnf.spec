@@ -4,7 +4,7 @@
 #
 Name     : dnf
 Version  : 2.7.5
-Release  : 22
+Release  : 23
 URL      : https://github.com/rpm-software-management/dnf/archive/2.7.5.tar.gz
 Source0  : https://github.com/rpm-software-management/dnf/archive/2.7.5.tar.gz
 Summary  : Package manager forked from Yum, using libsolv as a dependency resolver
@@ -29,6 +29,7 @@ BuildRequires : tox
 BuildRequires : virtualenv
 Patch1: 0001-Ignore-uninstalled-error.patch
 Patch2: fix-decode-error.patch
+Patch3: errno.patch
 
 %description
 Package manager forked from Yum, using libsolv as a dependency resolver.
@@ -80,6 +81,7 @@ python3 components for the dnf package.
 %setup -q -n dnf-2.7.5
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
