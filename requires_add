@@ -6,3 +6,5 @@ iniparse
 libcomps
 libdnf
 librepo
+pygobject
+smartcols

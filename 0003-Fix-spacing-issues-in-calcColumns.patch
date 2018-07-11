@@ -1,0 +1,44 @@
+From 225b73447334d09321898bd3c0e4810269c68466 Mon Sep 17 00:00:00 2001
+From: Patrick McCarty <patrick.mccarty@intel.com>
+Date: Thu, 12 Jul 2018 21:06:35 -0700
+Subject: [PATCH 3/3] Fix spacing issues in calcColumns()
+
+When `dnf install` output is filtered, the minimum space specified by
+the "columns" argument to calcColumns() was not being honored, which may
+result in columns being concatenated with no intervening space. Fix the
+issue by replacing the column widths with the minimum space values as
+needed.
+
+Also, to prevent accidental line wrapping, account for padding between
+columns when comparing to the default width.
+
+Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
+---
+ dnf/cli/output.py | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/dnf/cli/output.py b/dnf/cli/output.py
+index f6df51e..fb15501 100644
+--- a/dnf/cli/output.py
++++ b/dnf/cli/output.py
+@@ -232,9 +232,16 @@ class Output(object):
+                 else:
+                     full_columns.append(0)
+             full_columns[0] += len(indent)
++            # The minimum space must be accounted for
++            if columns is not None:
++                for idx in range(len(columns)):
++                    if full_columns[idx] < columns[idx]:
++                        full_columns[idx] = columns[idx]
++            # Ensure padding between columns
++            extra = cols - 1
+             # if possible, try to keep default width (usually 80 columns)
+             default_width = self.term.columns
+-            if sum(full_columns) > default_width:
++            if sum(full_columns) + extra > default_width:
+                 return full_columns
+             total_width = default_width
+ 
+-- 
+2.18.0
+

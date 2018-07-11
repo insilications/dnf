@@ -1,2 +1,3 @@
-0001-Ignore-uninstalled-error.patch
-fix-decode-error.patch
+0001-Import-configparser-module-directly.patch
+0002-Set-EUID-instead-of-loginuid-for-swdb-history.patch
+0003-Fix-spacing-issues-in-calcColumns.patch
