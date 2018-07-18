@@ -1,7 +1,7 @@
 From cc48e5ff449e568a372952d7013d5f50a9fbeb5f Mon Sep 17 00:00:00 2001
 From: Patrick McCarty <patrick.mccarty@intel.com>
 Date: Wed, 11 Jul 2018 20:44:36 -0700
-Subject: [PATCH 2/3] Set EUID instead of loginuid for swdb history
+Subject: [PATCH 2/4] Set EUID instead of loginuid for swdb history
 
 The getloginuid() function tries to read from /proc/self/loginuid, but
 this file never exists on Clear Linux. When the file does not exist,

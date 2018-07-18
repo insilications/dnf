@@ -1,7 +1,7 @@
 From 225b73447334d09321898bd3c0e4810269c68466 Mon Sep 17 00:00:00 2001
 From: Patrick McCarty <patrick.mccarty@intel.com>
 Date: Thu, 12 Jul 2018 21:06:35 -0700
-Subject: [PATCH 3/3] Fix spacing issues in calcColumns()
+Subject: [PATCH 3/4] Fix spacing issues in calcColumns()
 
 When `dnf install` output is filtered, the minimum space specified by
 the "columns" argument to calcColumns() was not being honored, which may

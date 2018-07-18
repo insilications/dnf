@@ -4,7 +4,7 @@
 #
 Name     : dnf
 Version  : 3.0.3
-Release  : 34
+Release  : 35
 URL      : https://github.com/rpm-software-management/dnf/archive/3.0.3.tar.gz
 Source0  : https://github.com/rpm-software-management/dnf/archive/3.0.3.tar.gz
 Summary  : %{pkg_summary}
@@ -33,6 +33,7 @@ BuildRequires : virtualenv
 Patch1: 0001-Import-configparser-module-directly.patch
 Patch2: 0002-Set-EUID-instead-of-loginuid-for-swdb-history.patch
 Patch3: 0003-Fix-spacing-issues-in-calcColumns.patch
+Patch4: 0004-If-DNF-proxy-is-unset-leave-librepo-proxy-unset.patch
 
 %description
 Hawkey tour package to test filelists handling.
@@ -94,13 +95,14 @@ python3 components for the dnf package.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1531719272
+export SOURCE_DATE_EPOCH=1531897542
 mkdir clr-build
 pushd clr-build
 %cmake .. -DPYTHON_DESIRED="3" -DWITH_MAN=0
@@ -108,7 +110,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1531719272
+export SOURCE_DATE_EPOCH=1531897542
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/dnf
 cp COPYING %{buildroot}/usr/share/doc/dnf/COPYING
