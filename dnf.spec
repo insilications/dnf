@@ -4,7 +4,7 @@
 #
 Name     : dnf
 Version  : 3.3.0
-Release  : 36
+Release  : 37
 URL      : https://github.com/rpm-software-management/dnf/archive/3.3.0.tar.gz
 Source0  : https://github.com/rpm-software-management/dnf/archive/3.3.0.tar.gz
 Summary  : %{pkg_summary}
@@ -13,8 +13,9 @@ License  : GPL-2.0 GPL-2.0+ LGPL-2.0
 Requires: dnf-bin
 Requires: dnf-python3
 Requires: dnf-config
-Requires: dnf-license
 Requires: dnf-locales
+Requires: dnf-man
+Requires: dnf-license
 Requires: dnf-python
 Requires: dnf-plugins-core
 Requires: gpgme
@@ -42,8 +43,9 @@ Hawkey tour package to test filelists handling.
 %package bin
 Summary: bin components for the dnf package.
 Group: Binaries
-Requires: dnf-config
-Requires: dnf-license
+Requires: dnf-config = %{version}-%{release}
+Requires: dnf-license = %{version}-%{release}
+Requires: dnf-man = %{version}-%{release}
 
 %description bin
 bin components for the dnf package.
@@ -73,10 +75,18 @@ Group: Default
 locales components for the dnf package.
 
 
+%package man
+Summary: man components for the dnf package.
+Group: Default
+
+%description man
+man components for the dnf package.
+
+
 %package python
 Summary: python components for the dnf package.
 Group: Default
-Requires: dnf-python3
+Requires: dnf-python3 = %{version}-%{release}
 
 %description python
 python components for the dnf package.
@@ -103,18 +113,18 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1535567490
+export SOURCE_DATE_EPOCH=1537851597
 mkdir -p clr-build
 pushd clr-build
-%cmake .. -DPYTHON_DESIRED="3" -DWITH_MAN=0
-make  %{?_smp_mflags}
+%cmake .. -DPYTHON_DESIRED="3" -DWITH_MAN=1
+make  %{?_smp_mflags} ; make doc-man
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1535567490
+export SOURCE_DATE_EPOCH=1537851597
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/dnf
-cp COPYING %{buildroot}/usr/share/doc/dnf/COPYING
+mkdir -p %{buildroot}/usr/share/package-licenses/dnf
+cp COPYING %{buildroot}/usr/share/package-licenses/dnf/COPYING
 pushd clr-build
 %make_install
 popd
@@ -148,7 +158,16 @@ ln -s /usr/bin/dnf-3 %{buildroot}/usr/bin/dnf
 
 %files license
 %defattr(-,root,root,-)
-/usr/share/doc/dnf/COPYING
+/usr/share/package-licenses/dnf/COPYING
+
+%files man
+%defattr(-,root,root,-)
+%exclude /usr/share/man/man5/yum.conf.5
+%exclude /usr/share/man/man8/yum.8
+/usr/share/man/man5/dnf.conf.5
+/usr/share/man/man8/dnf.8
+/usr/share/man/man8/dnf.automatic.8
+/usr/share/man/man8/yum2dnf.8
 
 %files python
 %defattr(-,root,root,-)
