@@ -1,0 +1,33 @@
+From 7ae79ff16f78713fdc6da191ce2794b4dc1b828d Mon Sep 17 00:00:00 2001
+From: Patrick McCarty <patrick.mccarty@intel.com>
+Date: Tue, 6 Nov 2018 10:12:13 -0800
+Subject: [PATCH 5/5] Create /etc/dnf/modules.d if missing
+
+DNF complains if this directory does not exist, so create it if missing
+via systemd-tmpfiles.
+
+Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
+---
+ etc/tmpfiles.d/CMakeLists.txt | 1 +
+ etc/tmpfiles.d/dnf-extra.conf | 2 ++
+ 2 files changed, 3 insertions(+)
+ create mode 100644 etc/tmpfiles.d/dnf-extra.conf
+
+diff --git a/etc/tmpfiles.d/CMakeLists.txt b/etc/tmpfiles.d/CMakeLists.txt
+index f69c773..833ad5a 100644
+--- a/etc/tmpfiles.d/CMakeLists.txt
++++ b/etc/tmpfiles.d/CMakeLists.txt
+@@ -1 +1,2 @@
+ INSTALL (FILES dnf.conf DESTINATION /usr/lib/tmpfiles.d/)
++INSTALL (FILES dnf-extra.conf DESTINATION /usr/lib/tmpfiles.d/)
+diff --git a/etc/tmpfiles.d/dnf-extra.conf b/etc/tmpfiles.d/dnf-extra.conf
+new file mode 100644
+index 0000000..1d0b6ce
+--- /dev/null
++++ b/etc/tmpfiles.d/dnf-extra.conf
+@@ -0,0 +1,2 @@
++# directory must exist for dnf to work; upstream creates the directory in the spec file
++d /etc/dnf/modules.d 0755 root root -
+-- 
+2.19.1
+

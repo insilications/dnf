@@ -1,7 +1,7 @@
-From bc5a1b142e4ac48bf7ac3ac338534387ee28a1ef Mon Sep 17 00:00:00 2001
+From fce0ad0d66c9bb3febf6587f5f8e42df8a3eed4b Mon Sep 17 00:00:00 2001
 From: Patrick McCarty <patrick.mccarty@intel.com>
 Date: Tue, 17 Jul 2018 23:47:45 -0700
-Subject: [PATCH 4/4] If DNF proxy is unset, leave librepo proxy unset
+Subject: [PATCH 4/5] If DNF proxy is unset, leave librepo proxy unset
 
 This is a workaround for a regression introduced in either dnf 3.0.2 or
 libdnf 0.15.2 that made dnf (via librepo) not honor the https_proxy
@@ -14,10 +14,10 @@ Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/dnf/repo.py b/dnf/repo.py
-index 14a5bbb..c55eadc 100644
+index 891dd07..b3cec54 100644
 --- a/dnf/repo.py
 +++ b/dnf/repo.py
-@@ -768,7 +768,8 @@ class Repo(dnf.conf.RepoConf):
+@@ -776,7 +776,8 @@ class Repo(dnf.conf.RepoConf):
          h.maxspeed = maxspeed
          h.setopt(librepo.LRO_PROXYAUTHMETHODS,
                   PROXYAUTHMETHODS.get(self.proxy_auth_method, librepo.LR_AUTH_ANY))
@@ -28,5 +28,5 @@ index 14a5bbb..c55eadc 100644
              h.connecttimeout = self.timeout
              h.lowspeedtime = self.timeout
 -- 
-2.18.0
+2.19.1
 

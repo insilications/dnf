@@ -4,19 +4,20 @@
 #
 Name     : dnf
 Version  : 3.3.0
-Release  : 37
+Release  : 38
 URL      : https://github.com/rpm-software-management/dnf/archive/3.3.0.tar.gz
 Source0  : https://github.com/rpm-software-management/dnf/archive/3.3.0.tar.gz
 Summary  : %{pkg_summary}
 Group    : Development/Tools
 License  : GPL-2.0 GPL-2.0+ LGPL-2.0
-Requires: dnf-bin
-Requires: dnf-python3
-Requires: dnf-config
-Requires: dnf-locales
-Requires: dnf-man
-Requires: dnf-license
-Requires: dnf-python
+Requires: dnf-bin = %{version}-%{release}
+Requires: dnf-config = %{version}-%{release}
+Requires: dnf-license = %{version}-%{release}
+Requires: dnf-locales = %{version}-%{release}
+Requires: dnf-man = %{version}-%{release}
+Requires: dnf-python = %{version}-%{release}
+Requires: dnf-python3 = %{version}-%{release}
+Requires: dnf-services = %{version}-%{release}
 Requires: dnf-plugins-core
 Requires: gpgme
 Requires: iniparse
@@ -36,6 +37,7 @@ Patch1: 0001-Import-configparser-module-directly.patch
 Patch2: 0002-Set-EUID-instead-of-loginuid-for-swdb-history.patch
 Patch3: 0003-Fix-spacing-issues-in-calcColumns.patch
 Patch4: 0004-If-DNF-proxy-is-unset-leave-librepo-proxy-unset.patch
+Patch5: 0005-Create-etc-dnf-modules.d-if-missing.patch
 
 %description
 Hawkey tour package to test filelists handling.
@@ -46,6 +48,7 @@ Group: Binaries
 Requires: dnf-config = %{version}-%{release}
 Requires: dnf-license = %{version}-%{release}
 Requires: dnf-man = %{version}-%{release}
+Requires: dnf-services = %{version}-%{release}
 
 %description bin
 bin components for the dnf package.
@@ -101,19 +104,28 @@ Requires: python3-core
 python3 components for the dnf package.
 
 
+%package services
+Summary: services components for the dnf package.
+Group: Systemd services
+
+%description services
+services components for the dnf package.
+
+
 %prep
 %setup -q -n dnf-3.3.0
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1537851597
+export SOURCE_DATE_EPOCH=1541528257
 mkdir -p clr-build
 pushd clr-build
 %cmake .. -DPYTHON_DESIRED="3" -DWITH_MAN=1
@@ -121,7 +133,7 @@ make  %{?_smp_mflags} ; make doc-man
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1537851597
+export SOURCE_DATE_EPOCH=1541528257
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dnf
 cp COPYING %{buildroot}/usr/share/package-licenses/dnf/COPYING
@@ -144,24 +156,15 @@ ln -s /usr/bin/dnf-3 %{buildroot}/usr/bin/dnf
 
 %files config
 %defattr(-,root,root,-)
-%exclude /usr/lib/systemd/system/dnf-automatic-download.service
-%exclude /usr/lib/systemd/system/dnf-automatic-download.timer
-%exclude /usr/lib/systemd/system/dnf-automatic-install.service
-%exclude /usr/lib/systemd/system/dnf-automatic-install.timer
-%exclude /usr/lib/systemd/system/dnf-automatic-notifyonly.service
-%exclude /usr/lib/systemd/system/dnf-automatic-notifyonly.timer
-%exclude /usr/lib/systemd/system/dnf-automatic.service
-%exclude /usr/lib/systemd/system/dnf-automatic.timer
-%exclude /usr/lib/systemd/system/dnf-makecache.service
-%exclude /usr/lib/systemd/system/dnf-makecache.timer
+/usr/lib/tmpfiles.d/dnf-extra.conf
 /usr/lib/tmpfiles.d/dnf.conf
 
 %files license
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/package-licenses/dnf/COPYING
 
 %files man
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 %exclude /usr/share/man/man5/yum.conf.5
 %exclude /usr/share/man/man8/yum.8
 /usr/share/man/man5/dnf.conf.5
@@ -175,6 +178,19 @@ ln -s /usr/bin/dnf-3 %{buildroot}/usr/bin/dnf
 %files python3
 %defattr(-,root,root,-)
 /usr/lib/python3*/*
+
+%files services
+%defattr(-,root,root,-)
+%exclude /usr/lib/systemd/system/dnf-automatic-download.service
+%exclude /usr/lib/systemd/system/dnf-automatic-download.timer
+%exclude /usr/lib/systemd/system/dnf-automatic-install.service
+%exclude /usr/lib/systemd/system/dnf-automatic-install.timer
+%exclude /usr/lib/systemd/system/dnf-automatic-notifyonly.service
+%exclude /usr/lib/systemd/system/dnf-automatic-notifyonly.timer
+%exclude /usr/lib/systemd/system/dnf-automatic.service
+%exclude /usr/lib/systemd/system/dnf-automatic.timer
+%exclude /usr/lib/systemd/system/dnf-makecache.service
+%exclude /usr/lib/systemd/system/dnf-makecache.timer
 
 %files locales -f dnf.lang
 %defattr(-,root,root,-)
