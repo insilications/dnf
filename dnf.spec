@@ -4,7 +4,7 @@
 #
 Name     : dnf
 Version  : 3.3.0
-Release  : 38
+Release  : 39
 URL      : https://github.com/rpm-software-management/dnf/archive/3.3.0.tar.gz
 Source0  : https://github.com/rpm-software-management/dnf/archive/3.3.0.tar.gz
 Summary  : %{pkg_summary}
@@ -38,6 +38,7 @@ Patch2: 0002-Set-EUID-instead-of-loginuid-for-swdb-history.patch
 Patch3: 0003-Fix-spacing-issues-in-calcColumns.patch
 Patch4: 0004-If-DNF-proxy-is-unset-leave-librepo-proxy-unset.patch
 Patch5: 0005-Create-etc-dnf-modules.d-if-missing.patch
+Patch6: nowarn.patch
 
 %description
 Hawkey tour package to test filelists handling.
@@ -119,13 +120,14 @@ services components for the dnf package.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1541528257
+export SOURCE_DATE_EPOCH=1545410731
 mkdir -p clr-build
 pushd clr-build
 %cmake .. -DPYTHON_DESIRED="3" -DWITH_MAN=1
@@ -133,7 +135,7 @@ make  %{?_smp_mflags} ; make doc-man
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1541528257
+export SOURCE_DATE_EPOCH=1545410731
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dnf
 cp COPYING %{buildroot}/usr/share/package-licenses/dnf/COPYING

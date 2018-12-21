@@ -3,3 +3,4 @@
 0003-Fix-spacing-issues-in-calcColumns.patch
 0004-If-DNF-proxy-is-unset-leave-librepo-proxy-unset.patch
 0005-Create-etc-dnf-modules.d-if-missing.patch
+nowarn.patch
