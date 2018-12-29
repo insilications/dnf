@@ -4,7 +4,7 @@
 #
 Name     : dnf
 Version  : 3.3.0
-Release  : 39
+Release  : 40
 URL      : https://github.com/rpm-software-management/dnf/archive/3.3.0.tar.gz
 Source0  : https://github.com/rpm-software-management/dnf/archive/3.3.0.tar.gz
 Summary  : %{pkg_summary}
