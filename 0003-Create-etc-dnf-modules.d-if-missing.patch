@@ -1,7 +1,7 @@
-From 7ae79ff16f78713fdc6da191ce2794b4dc1b828d Mon Sep 17 00:00:00 2001
+From f7cb089e0abf47f887f727195510318661ed3c12 Mon Sep 17 00:00:00 2001
 From: Patrick McCarty <patrick.mccarty@intel.com>
 Date: Tue, 6 Nov 2018 10:12:13 -0800
-Subject: [PATCH 5/5] Create /etc/dnf/modules.d if missing
+Subject: [PATCH 3/4] Create /etc/dnf/modules.d if missing
 
 DNF complains if this directory does not exist, so create it if missing
 via systemd-tmpfiles.
@@ -29,5 +29,5 @@ index 0000000..1d0b6ce
 +# directory must exist for dnf to work; upstream creates the directory in the spec file
 +d /etc/dnf/modules.d 0755 root root -
 -- 
-2.19.1
+2.20.1
 

@@ -1,7 +1,7 @@
-From ac4e3d4d6e12dfc4811a33ff3bda86c5ae73ef13 Mon Sep 17 00:00:00 2001
+From 8a5cb2810139a51bbddadf950f8a2087232e533c Mon Sep 17 00:00:00 2001
 From: Patrick McCarty <patrick.mccarty@intel.com>
 Date: Wed, 11 Jul 2018 20:44:36 -0700
-Subject: [PATCH 2/5] Set EUID instead of loginuid for swdb history
+Subject: [PATCH 1/4] Set EUID instead of loginuid for swdb history
 
 The getloginuid() function tries to read from /proc/self/loginuid, but
 this file never exists on Clear Linux. When the file does not exist,
@@ -15,10 +15,10 @@ Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/dnf/db/history.py b/dnf/db/history.py
-index f4158ec..cc4e1d9 100644
+index dc9c53b..7e8c143 100644
 --- a/dnf/db/history.py
 +++ b/dnf/db/history.py
-@@ -445,7 +445,7 @@ class SwdbInterface(object):
+@@ -453,7 +453,7 @@ class SwdbInterface(object):
              int(calendar.timegm(time.gmtime())),
              str(rpmdb_version),
              cmdline or "",
@@ -28,5 +28,5 @@ index f4158ec..cc4e1d9 100644
          self.swdb.setReleasever(self.releasever)
          self._tid = tid
 -- 
-2.19.1
+2.20.1
 

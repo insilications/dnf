@@ -11,5 +11,7 @@
 /usr/lib/systemd/system/dnf-automatic.service
 /usr/lib/systemd/system/dnf-automatic.timer
 # TODO: ship these yum man pages once the yum package goes away
+/usr/share/man/man1/yum-aliases.1
 /usr/share/man/man5/yum.conf.5
 /usr/share/man/man8/yum.8
+/usr/share/man/man8/yum-shell.8
