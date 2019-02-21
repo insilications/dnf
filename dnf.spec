@@ -4,7 +4,7 @@
 #
 Name     : dnf
 Version  : 3.3.0
-Release  : 40
+Release  : 41
 URL      : https://github.com/rpm-software-management/dnf/archive/3.3.0.tar.gz
 Source0  : https://github.com/rpm-software-management/dnf/archive/3.3.0.tar.gz
 Summary  : %{pkg_summary}
@@ -26,6 +26,7 @@ Requires: libdnf
 Requires: librepo
 Requires: pygobject
 Requires: smartcols
+BuildRequires : Sphinx
 BuildRequires : buildreq-cmake
 BuildRequires : gettext-dev
 BuildRequires : pluggy
@@ -127,15 +128,16 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1545410731
+export SOURCE_DATE_EPOCH=1550714628
 mkdir -p clr-build
 pushd clr-build
+export LDFLAGS="${LDFLAGS} -fno-lto"
 %cmake .. -DPYTHON_DESIRED="3" -DWITH_MAN=1
 make  %{?_smp_mflags} ; make doc-man
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1545410731
+export SOURCE_DATE_EPOCH=1550714628
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dnf
 cp COPYING %{buildroot}/usr/share/package-licenses/dnf/COPYING
