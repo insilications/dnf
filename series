@@ -1,4 +1,3 @@
-0001-Set-EUID-instead-of-loginuid-for-swdb-history.patch
-0002-Fix-spacing-issues-in-calcColumns.patch
-0003-Create-etc-dnf-modules.d-if-missing.patch
-0004-sphinx-build-3-does-not-exist.patch
+0001-Fix-spacing-issues-in-calcColumns.patch
+0002-Create-etc-dnf-modules.d-if-missing.patch
+0003-sphinx-build-3-does-not-exist.patch
