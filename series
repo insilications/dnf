@@ -1,3 +1,4 @@
 0001-Fix-spacing-issues-in-calcColumns.patch
 0002-Create-etc-dnf-modules.d-if-missing.patch
 0003-sphinx-build-3-does-not-exist.patch
+0004-Silence-already-installed-messages.patch

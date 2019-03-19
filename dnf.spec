@@ -4,7 +4,7 @@
 #
 Name     : dnf
 Version  : 4.2.1
-Release  : 45
+Release  : 46
 URL      : https://github.com/rpm-software-management/dnf/archive/4.2.1.tar.gz
 Source0  : https://github.com/rpm-software-management/dnf/archive/4.2.1.tar.gz
 Summary  : %{pkg_summary}
@@ -37,6 +37,7 @@ BuildRequires : virtualenv
 Patch1: 0001-Fix-spacing-issues-in-calcColumns.patch
 Patch2: 0002-Create-etc-dnf-modules.d-if-missing.patch
 Patch3: 0003-sphinx-build-3-does-not-exist.patch
+Patch4: 0004-Silence-already-installed-messages.patch
 
 %description
 Hawkey tour package to test filelists handling.
@@ -115,13 +116,14 @@ services components for the dnf package.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1552945848
+export SOURCE_DATE_EPOCH=1553006633
 mkdir -p clr-build
 pushd clr-build
 export LDFLAGS="${LDFLAGS} -fno-lto"
@@ -130,7 +132,7 @@ make  %{?_smp_mflags} ; make doc-man
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1552945848
+export SOURCE_DATE_EPOCH=1553006633
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dnf
 cp COPYING %{buildroot}/usr/share/package-licenses/dnf/COPYING

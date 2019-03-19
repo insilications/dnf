@@ -1,0 +1,26 @@
+From 5d252af147b5347d1896b453ecc3cff12d814f02 Mon Sep 17 00:00:00 2001
+From: Patrick McCarty <patrick.mccarty@intel.com>
+Date: Tue, 19 Mar 2019 07:41:12 -0700
+Subject: [PATCH 4/4] Silence "already installed" messages
+
+These used to be warnings, and now they're info messages. They still
+print thousands of times during builds, so not very useful for the Clear
+Linux OS use cases.
+
+Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
+---
+ dnf/base.py | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/dnf/base.py b/dnf/base.py
+index 42e5d42..4ec6e74 100644
+--- a/dnf/base.py
++++ b/dnf/base.py
+@@ -2461,4 +2461,3 @@ class Base(object):
+ def _msg_installed(pkg):
+     name = ucd(pkg)
+     msg = _('Package %s is already installed.')
+-    logger.info(msg, name)
+-- 
+2.20.1
+
