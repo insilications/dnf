@@ -4,7 +4,7 @@
 #
 Name     : dnf
 Version  : 4.2.2
-Release  : 47
+Release  : 48
 URL      : https://github.com/rpm-software-management/dnf/archive/4.2.2.tar.gz
 Source0  : https://github.com/rpm-software-management/dnf/archive/4.2.2.tar.gz
 Summary  : %{pkg_summary}
