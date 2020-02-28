@@ -4,12 +4,12 @@
 #
 Name     : dnf
 Version  : 4.2.2
-Release  : 52
+Release  : 53
 URL      : https://github.com/rpm-software-management/dnf/archive/4.2.2.tar.gz
 Source0  : https://github.com/rpm-software-management/dnf/archive/4.2.2.tar.gz
-Summary  : %{pkg_summary}
+Summary  : Package manager forked from Yum, using libsolv as a dependency resolver
 Group    : Development/Tools
-License  : GPL-2.0 GPL-2.0+ LGPL-2.0
+License  : GPL-2.0 GPL-2.0+
 Requires: dnf-bin = %{version}-%{release}
 Requires: dnf-config = %{version}-%{release}
 Requires: dnf-license = %{version}-%{release}
@@ -17,7 +17,6 @@ Requires: dnf-locales = %{version}-%{release}
 Requires: dnf-man = %{version}-%{release}
 Requires: dnf-python = %{version}-%{release}
 Requires: dnf-python3 = %{version}-%{release}
-Requires: dnf-services = %{version}-%{release}
 Requires: dnf-plugins-core
 Requires: gpgme
 Requires: iniparse
@@ -28,10 +27,18 @@ Requires: pygobject
 Requires: smartcols
 BuildRequires : Sphinx
 BuildRequires : buildreq-cmake
+BuildRequires : dnf-plugins-core
 BuildRequires : gettext-dev
+BuildRequires : gpgme
+BuildRequires : iniparse
+BuildRequires : libcomps
+BuildRequires : libdnf
+BuildRequires : librepo
 BuildRequires : pluggy
 BuildRequires : py-python
+BuildRequires : pygobject
 BuildRequires : pytest
+BuildRequires : smartcols
 BuildRequires : tox
 BuildRequires : virtualenv
 Patch1: 0001-Fix-spacing-issues-in-calcColumns.patch
@@ -40,14 +47,17 @@ Patch3: 0003-sphinx-build-3-does-not-exist.patch
 Patch4: 0004-Silence-already-installed-messages.patch
 
 %description
-Hawkey tour package to test filelists handling.
+###############
+Dandified YUM
+###############
+.. image:: https://raw.githubusercontent.com/rpm-software-management/dnf/gh-pages/logos/DNF_logo.png
+Dandified YUM (DNF) is the next upcoming major version of `YUM <http://yum.baseurl.org/>`_. It does package management using `RPM <http://rpm.org/>`_, `libsolv <https://github.com/openSUSE/libsolv>`_ and `hawkey <https://github.com/rpm-software-management/hawkey>`_ libraries. For metadata handling and package downloads it utilizes `librepo <https://github.com/tojaj/librepo>`_. To process and effectively handle the comps data it uses `libcomps <https://github.com/midnightercz/libcomps>`_.
 
 %package bin
 Summary: bin components for the dnf package.
 Group: Binaries
 Requires: dnf-config = %{version}-%{release}
 Requires: dnf-license = %{version}-%{release}
-Requires: dnf-services = %{version}-%{release}
 
 %description bin
 bin components for the dnf package.
@@ -103,16 +113,9 @@ Requires: python3-core
 python3 components for the dnf package.
 
 
-%package services
-Summary: services components for the dnf package.
-Group: Systemd services
-
-%description services
-services components for the dnf package.
-
-
 %prep
 %setup -q -n dnf-4.2.2
+cd %{_builddir}/dnf-4.2.2
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -122,24 +125,44 @@ services components for the dnf package.
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1553704862
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1582919114
 mkdir -p clr-build
 pushd clr-build
-export LDFLAGS="${LDFLAGS} -fno-lto"
+# -Werror is for werrorists
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %cmake .. -DPYTHON_DESIRED="3" -DWITH_MAN=1
-make  %{?_smp_mflags} ; make doc-man
+make  %{?_smp_mflags}  ; make doc-man
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1553704862
+export SOURCE_DATE_EPOCH=1582919114
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/dnf
-cp COPYING %{buildroot}/usr/share/package-licenses/dnf/COPYING
+cp %{_builddir}/dnf-4.2.2/COPYING %{buildroot}/usr/share/package-licenses/dnf/4cc77b90af91e615a64ae04893fdffa7939db84c
 pushd clr-build
 %make_install
 popd
 %find_lang dnf
+## Remove excluded files
+rm -f %{buildroot}/usr/lib/systemd/system/dnf-automatic-download.service
+rm -f %{buildroot}/usr/lib/systemd/system/dnf-automatic-download.timer
+rm -f %{buildroot}/usr/lib/systemd/system/dnf-automatic-install.service
+rm -f %{buildroot}/usr/lib/systemd/system/dnf-automatic-install.timer
+rm -f %{buildroot}/usr/lib/systemd/system/dnf-automatic-notifyonly.service
+rm -f %{buildroot}/usr/lib/systemd/system/dnf-automatic-notifyonly.timer
+rm -f %{buildroot}/usr/lib/systemd/system/dnf-makecache.service
+rm -f %{buildroot}/usr/lib/systemd/system/dnf-makecache.timer
+rm -f %{buildroot}/usr/lib/systemd/system/dnf-automatic.service
+rm -f %{buildroot}/usr/lib/systemd/system/dnf-automatic.timer
+rm -f %{buildroot}/usr/share/man/man1/yum-aliases.1
+rm -f %{buildroot}/usr/share/man/man5/yum.conf.5
+rm -f %{buildroot}/usr/share/man/man8/yum.8
+rm -f %{buildroot}/usr/share/man/man8/yum-shell.8
 ## install_append content
 ln -s /usr/bin/dnf-3 %{buildroot}/usr/bin/dnf
 ## install_append end
@@ -160,14 +183,10 @@ ln -s /usr/bin/dnf-3 %{buildroot}/usr/bin/dnf
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/dnf/COPYING
+/usr/share/package-licenses/dnf/4cc77b90af91e615a64ae04893fdffa7939db84c
 
 %files man
 %defattr(0644,root,root,0755)
-%exclude /usr/share/man/man1/yum-aliases.1
-%exclude /usr/share/man/man5/yum.conf.5
-%exclude /usr/share/man/man8/yum-shell.8
-%exclude /usr/share/man/man8/yum.8
 /usr/share/man/man5/dnf.conf.5
 /usr/share/man/man8/dnf.8
 /usr/share/man/man8/dnf.automatic.8
@@ -179,19 +198,6 @@ ln -s /usr/bin/dnf-3 %{buildroot}/usr/bin/dnf
 %files python3
 %defattr(-,root,root,-)
 /usr/lib/python3*/*
-
-%files services
-%defattr(-,root,root,-)
-%exclude /usr/lib/systemd/system/dnf-automatic-download.service
-%exclude /usr/lib/systemd/system/dnf-automatic-download.timer
-%exclude /usr/lib/systemd/system/dnf-automatic-install.service
-%exclude /usr/lib/systemd/system/dnf-automatic-install.timer
-%exclude /usr/lib/systemd/system/dnf-automatic-notifyonly.service
-%exclude /usr/lib/systemd/system/dnf-automatic-notifyonly.timer
-%exclude /usr/lib/systemd/system/dnf-automatic.service
-%exclude /usr/lib/systemd/system/dnf-automatic.timer
-%exclude /usr/lib/systemd/system/dnf-makecache.service
-%exclude /usr/lib/systemd/system/dnf-makecache.timer
 
 %files locales -f dnf.lang
 %defattr(-,root,root,-)
