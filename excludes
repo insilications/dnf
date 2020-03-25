@@ -1,17 +1,8 @@
 # This file contains the output files that need %exclude. Full path
 # names, one per line.
-/usr/lib/systemd/system/dnf-automatic-download.service
-/usr/lib/systemd/system/dnf-automatic-download.timer
-/usr/lib/systemd/system/dnf-automatic-install.service
-/usr/lib/systemd/system/dnf-automatic-install.timer
-/usr/lib/systemd/system/dnf-automatic-notifyonly.service
-/usr/lib/systemd/system/dnf-automatic-notifyonly.timer
-/usr/lib/systemd/system/dnf-makecache.service
-/usr/lib/systemd/system/dnf-makecache.timer
-/usr/lib/systemd/system/dnf-automatic.service
-/usr/lib/systemd/system/dnf-automatic.timer
+/usr/lib/systemd/system/*.service
+/usr/lib/systemd/system/*.timer
 # TODO: ship these yum man pages once the yum package goes away
-/usr/share/man/man1/yum-aliases.1
-/usr/share/man/man5/yum.conf.5
-/usr/share/man/man8/yum.8
-/usr/share/man/man8/yum-shell.8
+/usr/share/man/man1/yum*
+/usr/share/man/man5/yum*
+/usr/share/man/man8/yum*

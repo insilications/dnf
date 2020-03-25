@@ -1,7 +1,7 @@
-From a095a5168acc2710a9a31355e4c4b963b4f0800e Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Patrick McCarty <patrick.mccarty@intel.com>
 Date: Thu, 12 Jul 2018 21:06:35 -0700
-Subject: [PATCH 1/4] Fix spacing issues in calcColumns()
+Subject: [PATCH] Fix spacing issues in calcColumns()
 
 When `dnf install` output is filtered, the minimum space specified by
 the "columns" argument to calcColumns() was not being honored, which may
@@ -18,12 +18,12 @@ Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
  1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/dnf/cli/output.py b/dnf/cli/output.py
-index 1addbfd..5205a57 100644
+index a7ece15..f0bdf69 100644
 --- a/dnf/cli/output.py
 +++ b/dnf/cli/output.py
-@@ -233,9 +233,16 @@ class Output(object):
+@@ -252,9 +252,16 @@ class Output(object):
                  else:
-                     full_columns.append(0)
+                     full_columns.append(columns[d] + 1)
              full_columns[0] += len(indent)
 +            # The minimum space must be accounted for
 +            if columns is not None:
@@ -39,6 +39,3 @@ index 1addbfd..5205a57 100644
                  return full_columns
              total_width = default_width
  
--- 
-2.20.1
-
