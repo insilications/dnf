@@ -4,7 +4,7 @@
 #
 Name     : dnf
 Version  : 4.2.23
-Release  : 56
+Release  : 57
 URL      : https://github.com/rpm-software-management/dnf/archive/4.2.23.tar.gz
 Source0  : https://github.com/rpm-software-management/dnf/archive/4.2.23.tar.gz
 Summary  : Next-generation version of the YUM package manager
@@ -117,7 +117,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1601883627
+export SOURCE_DATE_EPOCH=1601884164
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -130,7 +130,7 @@ make  %{?_smp_mflags}  ; make doc-man
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1601883627
+export SOURCE_DATE_EPOCH=1601884164
 rm -rf %{buildroot}
 pushd clr-build
 %make_install
