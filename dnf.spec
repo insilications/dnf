@@ -4,7 +4,7 @@
 #
 Name     : dnf
 Version  : 4.2.23
-Release  : 62
+Release  : 63
 URL      : https://github.com/rpm-software-management/dnf/archive/4.2.23.tar.gz
 Source0  : https://github.com/rpm-software-management/dnf/archive/4.2.23.tar.gz
 Summary  : Next-generation version of the YUM package manager
@@ -17,28 +17,14 @@ Requires: dnf-man = %{version}-%{release}
 Requires: dnf-python = %{version}-%{release}
 Requires: dnf-python3 = %{version}-%{release}
 Requires: dnf-plugins-core
-Requires: gpgme
-Requires: iniparse
-Requires: libcomps
-Requires: libdnf
-Requires: librepo
-Requires: pygobject
-Requires: smartcols
 BuildRequires : Sphinx
 BuildRequires : buildreq-cmake
 BuildRequires : dnf-plugins-core
 BuildRequires : gettext-dev
 BuildRequires : git
-BuildRequires : gpgme
-BuildRequires : iniparse
-BuildRequires : libcomps
-BuildRequires : libdnf
-BuildRequires : librepo
 BuildRequires : pluggy
 BuildRequires : py-python
-BuildRequires : pygobject
 BuildRequires : pytest
-BuildRequires : smartcols
 BuildRequires : tox
 BuildRequires : virtualenv
 Patch1: 0001-Fix-spacing-issues-in-calcColumns.patch
@@ -117,7 +103,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1601887250
+export SOURCE_DATE_EPOCH=1601888617
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -130,7 +116,7 @@ make  %{?_smp_mflags}  ; make doc-man
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1601887250
+export SOURCE_DATE_EPOCH=1601888617
 rm -rf %{buildroot}
 pushd clr-build
 %make_install
