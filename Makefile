@@ -1,5 +1,5 @@
 PKG_NAME := dnf
-URL = https://github.com/rpm-software-management/dnf/archive/4.2.23.tar.gz
+URL = https://github.com/rpm-software-management/dnf.git
 ARCHIVES = 
 
 include ../common/Makefile.common
