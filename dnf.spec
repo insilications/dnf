@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : dnf
-Version  : 6
+Version  : 4.7.0
 Release  : 60
-URL      : file:///aot/build/clearlinux/packages/dnf/dnf-6.tar.gz
-Source0  : file:///aot/build/clearlinux/packages/dnf/dnf-6.tar.gz
+URL      : https://github.com/rpm-software-management/dnf/archive/refs/tags/4.7.0.tar.gz
+Source0  : https://github.com/rpm-software-management/dnf/archive/refs/tags/4.7.0.tar.gz
 Summary  : Next-generation version of the YUM package manager
 Group    : Development/Tools
 License  : GPL-2.0 GPL-2.0+
@@ -173,8 +173,8 @@ python3 components for the dnf package.
 
 
 %prep
-%setup -q -n dnf
-cd %{_builddir}/dnf
+%setup -q -n dnf-4.7.0
+cd %{_builddir}/dnf-4.7.0
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -186,7 +186,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1618913603
+export SOURCE_DATE_EPOCH=1618941452
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -259,7 +259,7 @@ fi
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1618913603
+export SOURCE_DATE_EPOCH=1618941452
 rm -rf %{buildroot}
 pushd clr-build
 %make_install
