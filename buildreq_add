@@ -4,6 +4,7 @@ acl-dev
 acl-staticdev
 automake
 automake-dev
+bash-completion
 binutils-dev
 binutils-extras
 bison
@@ -22,6 +23,7 @@ compat-lua-53-staticdev
 curl-dev
 db-dev
 dbus-dev
+dbus-python
 dejagnu
 dnf-plugins-core
 docbook-utils
@@ -57,6 +59,7 @@ gcc-libubsan
 gcc-locale
 gdb
 gdb-dev
+gettext
 gettext-bin
 gettext-dev
 git
@@ -90,7 +93,6 @@ libassuan-dev
 libcap
 libcap-dev
 libcomps-dev
-libcomps-staticdev
 libdnf
 libdnf-dev
 libedit
@@ -106,7 +108,6 @@ libmodulemd-staticdev
 librepo-dev
 librepo-staticdev
 libsolv-dev
-libsolv-staticdev
 libstdc++
 libtool
 libtool-dev
@@ -138,12 +139,13 @@ pytest
 python3-dev
 python3-staticdev
 rpm-dev
-rpm-staticdev
 Sphinx
 sqlite-autoconf
 sqlite-autoconf-dev
 sqlite-autoconf-staticdev
 swig
+systemd
+systemd-dev
 tox
 unzip
 virtualenv
